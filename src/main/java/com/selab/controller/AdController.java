@@ -1,7 +1,6 @@
 package com.selab.controller;
 
 import com.selab.model.Entity.Ad;
-import com.selab.model.User;
 import com.selab.model.repository.AdRepository;
 import com.selab.model.repository.AdRepositoryCustom;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +13,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 @RestController
 public class AdController implements AdRepositoryCustom {
