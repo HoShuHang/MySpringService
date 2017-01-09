@@ -1,4 +1,4 @@
-package com.selab.model;
+package com.selab.model.Entity;
 
 import java.util.List;
 

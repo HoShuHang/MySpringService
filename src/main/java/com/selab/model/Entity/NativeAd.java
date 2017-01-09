@@ -1,7 +1,6 @@
-package com.selab.model;
+package com.selab.model.Entity;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import com.selab.model.Entity.Native;
 
 public class NativeAd {
     private Native nat;
