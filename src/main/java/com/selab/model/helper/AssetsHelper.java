@@ -2,6 +2,7 @@ package com.selab.model.helper;
 
 import com.selab.model.Entity.Asset;
 import com.selab.model.Entity.Img;
+import com.selab.model.Entity.Link;
 import com.selab.model.exception.AssetErrorException;
 
 import java.util.List;
@@ -88,6 +89,15 @@ public class AssetsHelper {
             Img img = asset.getImg();
             if (img != null && img.getUrl().contains(CHARACTER) && img.getUrl().contains(ICON_CHARACTER))
                 return img.getUrl();
+        }
+        throw new AssetErrorException();
+    }
+
+    public String getLink() throws AssetErrorException {
+        for (Asset asset : this.assets) {
+            Link link = asset.getLink();
+            if (link != null)
+                return link.getUrl();
         }
         throw new AssetErrorException();
     }

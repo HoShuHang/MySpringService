@@ -5,6 +5,7 @@ public class Asset {
     private Title title;
     private Img img;
     private Data data;
+    private Link link;
 
     public int getId() {
         return id;
@@ -36,5 +37,13 @@ public class Asset {
 
     public void setData(Data data) {
         this.data = data;
+    }
+
+    public Link getLink() {
+        return link;
+    }
+
+    public void setLink(Link link) {
+        this.link = link;
     }
 }

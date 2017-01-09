@@ -14,11 +14,12 @@ import java.util.Map;
 public class Ad {
     @Id
     private Long id;
-    @Column(unique=true)
+    @Column(unique=true, length = 1000)
     private String title;
     private String description;
     private String imgUrl, imgMUrl, imgSUrl;
     private String iconUrl, iconLUrl, iconSUrl;
+    private String link;
 
     public Ad() {}
 
@@ -32,6 +33,7 @@ public class Ad {
         this.iconUrl = assetsHelper.getIconUrl();
         this.iconLUrl = assetsHelper.getIconLUrl();
         this.iconSUrl = assetsHelper.getIconSUrl();
+        this.link = assetsHelper.getLink();
     }
 
     public Long getId() {
@@ -114,5 +116,13 @@ public class Ad {
                 return map.get(key);
         }
         return null;
+    }
+
+    public String getLink() {
+        return link;
+    }
+
+    public void setLink(String link) {
+        this.link = link;
     }
 }
