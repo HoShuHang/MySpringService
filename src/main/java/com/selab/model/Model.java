@@ -7,6 +7,8 @@ import com.selab.model.Entity.NativeAd;
 import com.selab.model.exception.AssetErrorException;
 import com.selab.model.repository.AdRepository;
 import com.selab.model.repository.ImpressiveEventRepository;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
@@ -30,14 +32,18 @@ public class Model {
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
-                NativeAd nativeAd = Model.this.getNativeAd();
-                Long adId = null;
                 try {
-                    adId = Model.this.saveAd(nativeAd);
-                } catch (AssetErrorException e) {
-                    e.printStackTrace();
+                    NativeAd nativeAd = Model.this.getNativeAd();
+                    Long adId = null;
+                    try {
+                        adId = Model.this.saveAd(nativeAd);
+                    } catch (AssetErrorException e) {
+                        e.printStackTrace();
+                    }
+                    Model.this.saveUrl(nativeAd.getNative(), adId);
+                } catch (HttpServerErrorException e) {
+                    System.out.println(e.getStatusCode());
                 }
-                Model.this.saveUrl(nativeAd.getNative(), adId);
             }
         }, DELAY_IN_SEC, PERIOD_IN_SEC * MILLISECOND);
     }
@@ -45,7 +51,11 @@ public class Model {
     private NativeAd getNativeAd() {
         final String URI = "https://beta-ssp.tenmax.io/supply/mobile/native/rmax-ad?rmaxSpaceId=55ba76bca772421f&dpid=bd4b9b7903cf40ce&v=1";
         RestTemplate restTemplate = new RestTemplate();
-        return restTemplate.getForObject(URI, NativeAd.class);
+        try {
+            return restTemplate.getForObject(URI, NativeAd.class);
+        } catch (HttpServerErrorException e) {
+            throw new HttpServerErrorException(e.getStatusCode());
+        }
     }
 
     private Long saveAd(NativeAd nativeAd) throws AssetErrorException {
