@@ -19,13 +19,13 @@ public class AdController implements AdRepositoryCustom {
     @Autowired
     private AdRepository repository;
 
-    @RequestMapping(value = "/ads/id/{id}")
+    @RequestMapping(value = "/ad/id/{id}")
     public ResponseEntity<List<Ad>> getAdById(@PathVariable("id") Long id) {
         List<Ad> ads = this.repository.findById(id);
         return new ResponseEntity(ads, HttpStatus.OK);
     }
 
-    @RequestMapping("/ads")
+    @RequestMapping("/ad")
     public ResponseEntity<List<Ad>> getAdByStr(@RequestParam("title") String title) {
         List<Ad> ads = this.findByString(title);
         return new ResponseEntity(ads, HttpStatus.OK);
