@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.client.RestTemplate;
 
+import javax.validation.constraints.Null;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -34,13 +35,12 @@ public class Model {
             public void run() {
                 try {
                     NativeAd nativeAd = Model.this.getNativeAd();
-                    Long adId = null;
-                    try {
-                        adId = Model.this.saveAd(nativeAd);
-                    } catch (AssetErrorException e) {
-                        e.printStackTrace();
+                    if(nativeAd.getNative() != null) {
+                        Long adId = Model.this.saveAd(nativeAd);
+                        Model.this.saveUrl(nativeAd.getNative(), adId);
                     }
-                    Model.this.saveUrl(nativeAd.getNative(), adId);
+                } catch (AssetErrorException e) {
+                    e.printStackTrace();
                 } catch (HttpServerErrorException e) {
                     System.out.println(e.getStatusCode());
                 }
@@ -58,7 +58,7 @@ public class Model {
         }
     }
 
-    private Long saveAd(NativeAd nativeAd) throws AssetErrorException {
+    private Long saveAd(NativeAd nativeAd) throws AssetErrorException{
         Ad ad = new Ad(nativeAd.getNative().getAssets());
         List<Ad> ads = (List<Ad>) this.adRepository.findAll();
         Long id = ads.isEmpty() ? 1 : this.getNextUnexistId(ads.get(ads.size() - 1).getId() + 1);
@@ -69,7 +69,7 @@ public class Model {
     }
 
     private void saveUrl(Native nat, Long adId) {
-        if(this.impressiveEventRepository.findByAdId(adId).isEmpty()) {
+        if (this.impressiveEventRepository.findByAdId(adId).isEmpty()) {
             for (String str : nat.getImpressionEvent()) {
                 this.impressiveEventRepository.save(new ImpressionEvent(str, adId, this.impressiveEventRepository));
             }
