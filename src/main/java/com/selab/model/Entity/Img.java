@@ -4,6 +4,12 @@ public class Img {
     private String url;
     private int w, h;
 
+    public Img() {}
+
+    public Img(String url) {
+        this.setUrl(url);
+    }
+
     public String getUrl() {
         return url;
     }

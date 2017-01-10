@@ -7,6 +7,12 @@ public class Asset {
     private Data data;
     private Link link;
 
+    public Asset() {}
+
+    public Asset(int id) {
+        this.setId(id);
+    }
+
     public int getId() {
         return id;
     }

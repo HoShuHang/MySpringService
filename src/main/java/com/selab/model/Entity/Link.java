@@ -6,6 +6,12 @@ public class Link {
     private String url;
     private List<String> clicktrackers;
 
+    public Link() {}
+
+    public Link(String url) {
+        this.setUrl(url);
+    }
+
     public void setUrl(String url) {
         this.url = url;
     }
